@@ -1,0 +1,198 @@
+import pandas as pd 
+import matplotlib.pyplot as plt
+import numpy as np 
+import seaborn as sns
+add Codeadd Markdown
+data = pd.read_csv('/kaggle/input/top-50-animation-movies-and-tv-shows/Top 50 Animation Movies and TV Shows.csv')
+print('='*20 , "lire les donnés" , "=" * 20)
+data.head()
+==================== lire les donnés ====================
+Ranking	Name	Year	Minutes	genre	Rating	Votes
+0	1.0	Big Mouth	(2017– )	30 min	Animation, Comedy, Romance	7.9	79,301
+1	2.0	The Bad Guys	(2022)	100 min	Animation, Adventure, Comedy	6.8	37,335
+2	3.0	Chainsaw Man	(2022– )	NaN	Animation, Action, Adventure	8.8	10,613
+3	4.0	Rick and Morty	(2013– )	23 min	Animation, Adventure, Comedy	9.1	515,315
+4	5.0	Disenchanted	(2022)	NaN	Animation, Adventure, Comedy	NaN	NaN
+add Codeadd Markdown
+def shape (dataframe):
+    print("=" *20 , "la longueur et la largueur du data", "="*20)
+    print(dataframe.shape)
+    print("="*80)
+    
+def describe(dataframe):
+    print("=" *20 , "description du data", "="*20)
+    print(dataframe.describe())
+    print("="*80)
+    
+def info (dataframe):
+    print("=" *20 , "info data", "="*20)
+    print(dataframe.info())
+    print("="*80)
+​
+shape(data)
+describe(data)
+info(data)
+==================== la longueur et la largueur du data ====================
+(50, 7)
+================================================================================
+==================== description du data ====================
+        Ranking     Rating
+count  50.00000  47.000000
+mean   25.50000   8.040426
+std    14.57738   1.096964
+min     1.00000   3.200000
+25%    13.25000   7.400000
+50%    25.50000   8.400000
+75%    37.75000   8.700000
+max    50.00000   9.700000
+================================================================================
+==================== info data ====================
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 7 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   Ranking  50 non-null     float64
+ 1   Name     50 non-null     object 
+ 2   Year     50 non-null     object 
+ 3   Minutes  46 non-null     object 
+ 4   genre    50 non-null     object 
+ 5   Rating   47 non-null     float64
+ 6   Votes    47 non-null     object 
+dtypes: float64(2), object(5)
+memory usage: 2.9+ KB
+None
+================================================================================
+add Codeadd Markdown
+def columns (dataframe):
+    print('='*20 , "les noms de colonnes" , "=" * 20)
+    print(dataframe.columns)
+    print("="* 80)
+
+columns(data)
+==================== les noms de colonnes ====================
+Index(['Ranking', 'Name', 'Year', 'Minutes', 'genre', 'Rating', 'Votes'], dtype='object')
+================================================================================
+add Codeadd Markdown
+print("="*20,"Suppression des doubles noms","="*20)
+data = data.drop_duplicates(subset='Name')
+
+print('nombre totale des donnés = ', len(data))
+
+print(data.head())
+==================== Suppression des doubles noms ====================
+nombre totale des donnés =  50
+   Ranking            Name      Year  Minutes                         genre  \
+0      1.0       Big Mouth  (2017– )   30 min    Animation, Comedy, Romance   
+1      2.0    The Bad Guys    (2022)  100 min  Animation, Adventure, Comedy   
+2      3.0    Chainsaw Man  (2022– )      NaN  Animation, Action, Adventure   
+3      4.0  Rick and Morty  (2013– )   23 min  Animation, Adventure, Comedy   
+4      5.0    Disenchanted    (2022)      NaN  Animation, Adventure, Comedy   
+
+   Rating    Votes  
+0     7.9   79,301  
+1     6.8   37,335  
+2     8.8   10,613  
+3     9.1  515,315  
+4     NaN      NaN  
+add Codeadd Markdown
+print("=" *20 , "Graphique pour les genres d'animation le plus suivis", "="*20)
+df = data["genre"].value_counts().index
+sizes = data["genre"].value_counts()
+plt.figure(figsize = (16,16))
+plt.pie(sizes,labels= df, autopct='%1.1f%%',shadow=True)
+plt.title('Genre')
+plt.show()
+==================== Graphique pour les genres d'animation le plus suivis ====================
+
+add Codeadd Markdown
+print("=" *20, "vous pouvez voir avec les chiffres les genres le plus suivis", "="*20)
+df=data["genre"].value_counts()
+df
+==================== vous pouvez voir avec les chiffres les genres le plus suivis ====================
+Animation, Action, Adventure    18
+Animation, Adventure, Comedy    12
+Animation, Comedy                5
+Animation, Comedy, Family        3
+Animation, Action, Comedy        3
+Animation, Short, Action         2
+Animation, Comedy, Romance       1
+Animation, Short, Adventure      1
+Animation, Drama, Family         1
+Animation, Comedy, Drama         1
+Animation, Family, Fantasy       1
+Animation, Family                1
+Animation, Adventure, Drama      1
+Name: genre, dtype: int64
+add Codeadd Markdown
+Ranking
+x=data['Ranking']
+y = data['Rating']
+plt.figure(figsize=(10,10))
+plt.plot(x,y)
+plt.xlabel('Ranking')
+plt.ylabel('Rating')
+plt.show()
+
+add Codeadd Markdown
+*20
+print('='*20, 'Les rangs des films avec leurs noms pour visualiser le graphique' ,"="*20)
+df1 = data.drop(['Rating','genre','Votes','Minutes','Year'],axis=1)
+df1
+==================== Les rangs des films avec leurs noms pour visualiser le graphique ====================
+Ranking	Name
+0	1.0	Big Mouth
+1	2.0	The Bad Guys
+2	3.0	Chainsaw Man
+3	4.0	Rick and Morty
+4	5.0	Disenchanted
+5	6.0	Zootopia+
+6	7.0	Star Wars: Tales of the Jedi
+7	8.0	One Piece Film: Red
+8	9.0	Family Guy
+9	10.0	Wendell & Wild
+10	11.0	The Simpsons
+11	12.0	The Dragon Prince
+12	13.0	Attack on Titan
+13	14.0	Pinocchio
+14	15.0	One Piece
+15	16.0	Bleach: Thousand-Year Blood War
+16	17.0	Lyle, Lyle, Crocodile
+17	18.0	Miraculous: Tales of Ladybug & Cat Noir
+18	19.0	Strange World
+19	20.0	Sing 2
+20	21.0	Cyberpunk: Edgerunners
+21	22.0	My Hero Academia
+22	23.0	Super Pets
+23	24.0	BoJack Horseman
+24	25.0	Arcane
+25	26.0	Bob's Burgers
+26	27.0	Zootropolis
+27	28.0	Enchanted
+28	29.0	South Park
+29	30.0	The Nightmare Before Christmas
+30	31.0	Star Wars: The Clone Wars
+31	32.0	Demon Slayer: Kimetsu no Yaiba
+32	33.0	Love, Death & Robots
+33	34.0	The Super Mario Bros. Movie
+34	35.0	Encanto
+35	36.0	Avatar: The Last Airbender
+36	37.0	The Soccer Football Movie
+37	38.0	Batman: The Animated Series
+38	39.0	Archer
+39	40.0	Mob Psycho 100
+40	41.0	Minions: The Rise of Gru
+41	42.0	Bleach
+42	43.0	Coco
+43	44.0	Sing
+44	45.0	American Dad!
+45	46.0	Futurama
+46	47.0	Bluey
+47	48.0	The Lion King
+48	49.0	Invincible
+49	50.0	SPY×FAMILY
+add Codeadd Markdown
+t
+sns.jointplot(x=x , y=y , data=data)
+<seaborn.axisgrid.JointGrid at 0x7f0ca45e7e90>
+
